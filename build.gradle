@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'org.web3j'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url "https://dl.bintray.com/ethereum/maven/" }
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation "org.web3j:web3j-evm:4.6.0-SNAPSHOT"
+}
+
+application {
+    mainClassName = 'org.web3j.web3jevmexample.Demo'
+}
+
+run {
+    standardInput = System.in
+}
