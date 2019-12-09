@@ -5,5 +5,7 @@ Contains a simple demo with required dependencies for you to get started with [w
 ## Usage
 
 git clone this repo..
+
 cd into folder
+
 ./gradlew clean build run
