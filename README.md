@@ -8,4 +8,4 @@ git clone this repo..
 
 cd into folder
 
-./gradlew clean build run
+./gradlew --console=plain clean build run

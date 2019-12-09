@@ -38,8 +38,8 @@ public class Demo {
         Configuration configuration = new Configuration(new Address(credentials.getAddress()), 10);
 
         // If you don't want console debugging, use PassthroughTracer instead..
-        //OperationTracer operationTracer = new ConsoleDebugTracer();
-        OperationTracer operationTracer = new PassthroughTracer();
+        OperationTracer operationTracer = new ConsoleDebugTracer();
+        //OperationTracer operationTracer = new PassthroughTracer();
 
         // We use EmbeddedWeb3jService rather than the usual service implementation..
         Web3j web3j = Web3j.build(new EmbeddedWeb3jService(configuration, operationTracer));
