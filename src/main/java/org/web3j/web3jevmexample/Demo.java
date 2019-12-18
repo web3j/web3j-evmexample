@@ -18,11 +18,11 @@ import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.evm.Configuration;
 import org.web3j.evm.ConsoleDebugTracer;
-import org.web3j.evm.EmbeddedWeb3jService;
 import org.web3j.evm.PassthroughTracer;
-import org.web3j.greeter.generated.contracts.Greeter;
+import org.web3j.evm.EmbeddedWeb3jService;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.regreeter.Regreeter;
 import org.web3j.tx.Transfer;
 import org.web3j.tx.gas.DefaultGasProvider;
 import org.web3j.utils.Convert;
@@ -37,29 +37,28 @@ public class Demo {
         // Define our own address and how much ether to prefund this address with
         Configuration configuration = new Configuration(new Address(credentials.getAddress()), 10);
 
-        // If you don't want console debugging, use PassthroughTracer instead..
+        // When using the default constructor on ConsoleDebugTracer, it will look for
+        // contract meta data within "build/resources/main/solidity". This is where
+        // the Web3j gradle plugin will place these files, but you can pass in a different
+        // location if you have placed them elsewhere.
         OperationTracer operationTracer = new ConsoleDebugTracer();
+
+        // If you don't want console debugging, use PassthroughTracer instead..
         //OperationTracer operationTracer = new PassthroughTracer();
 
-        // We use EmbeddedWeb3jService rather than the usual service implementation..
+        // We use EmbeddedWeb3jService rather than the usual service implementation.
+        // This will let us run an EVM and a ledger inside the running JVM..
         Web3j web3j = Web3j.build(new EmbeddedWeb3jService(configuration, operationTracer));
-
-        // Transaction etherTransaction =
-        // Transaction.createEtherTransaction(credentials.getAddress(), BigInteger.ZERO,
-        // BigInteger.ONE, BigInteger.valueOf(1_000_000),
-        // "0x2dfBf35bb7c3c0A466A6C48BEBf3eF7576d3C420", Convert.toWei("1",
-        // Convert.Unit.ETHER).toBigInteger());
-        // BigInteger gasUsed = web3j.ethEstimateGas(etherTransaction).send().getAmountUsed();
 
         // First run a simple ETH transfer transaction..
         System.out.println("Starting simple ETH transfer transaction");
         TransactionReceipt transactionReceipt =
                 Transfer.sendFunds(
-                                web3j,
-                                credentials,
-                                "0x2dfBf35bb7c3c0A466A6C48BEBf3eF7576d3C420",
-                                new BigDecimal("1"),
-                                Convert.Unit.ETHER)
+                        web3j,
+                        credentials,
+                        "0x2dfBf35bb7c3c0A466A6C48BEBf3eF7576d3C420",
+                        new BigDecimal("1"),
+                        Convert.Unit.ETHER)
                         .send();
 
         System.out.println(
@@ -70,15 +69,15 @@ public class Demo {
 
         // Deploy Greeter contract..
         System.out.println("Starting Greeter deploy..");
-        Greeter greeter =
-                Greeter.deploy(web3j, credentials, new DefaultGasProvider(), "Hello!").send();
+        Regreeter regreeter =
+                Regreeter.deploy(web3j, credentials, new DefaultGasProvider(), "Hello!").send();
 
         System.out.println();
 
         // Fetch greeter value..
         System.out.println("Greeter was deployed, about to get greeting..");
 
-        String greet = greeter.greet().send();
+        String greet = regreeter.getGreeting().send();
         System.out.println("Greeter string value is: " + greet);
     }
 }
