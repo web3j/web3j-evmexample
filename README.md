@@ -9,3 +9,9 @@ git clone this repo..
 cd into folder
 
 ./gradlew --console=plain clean build run
+
+## Demo
+
+Running the above will start the demo as shown below
+
+![](https://raw.githubusercontent.com/web3j/web3j-evmexample/master/resources/web3j-evm-demo.gif)
