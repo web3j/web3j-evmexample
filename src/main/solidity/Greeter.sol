@@ -9,7 +9,7 @@ contract Greeter is Mortal {
         greeting = _greeting;
     }
 
-    function getGreeting() public constant returns (string)  {
+    function getGreeting() public constant returns (string) {
         return greeting;
     }
 }

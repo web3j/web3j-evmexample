@@ -1,20 +1,7 @@
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-        // TODO: We need the below because as of now the 4.5.11 plugin isn't on the above yet.
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'org.web3j:web3j-gradle-plugin:4.5.11'
-    }
-}
-
 plugins {
     id 'java'
     id 'application'
+    id 'org.web3j' version '4.5.11'
 }
 
 apply plugin: 'org.web3j'
@@ -25,13 +12,14 @@ version '1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
+    mavenLocal()
     mavenCentral()
     jcenter()
 }
 
 dependencies {
     implementation "org.web3j:core:4.5.11"
-    implementation "org.web3j:web3j-evm:4.5.11"
+    implementation "org.web3j:web3j-evm:4.6.0-SNAPSHOT"
 }
 
 application {
